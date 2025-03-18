@@ -1,0 +1,99 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" controllerName="sbx.rla.bc.appstore.controller.catalogo">
+    <semantic:SemanticPage id="page2" headerPinnable="false" toggleHeaderOnTitleClick="false" showFooter="true">
+        <!-- Título da Página -->
+        <semantic:titleHeading>
+            <Title id="idTitle" text="Produtos"/>
+        </semantic:titleHeading>
+
+        <!-- Cabeçalho -->
+        <semantic:headerContent>
+            <IconTabBar id="iconTabBar" select=".onQuickFilter" expandable="false">
+
+                <!-- Ícones de Filtro -->
+                <items>
+                    <IconTabFilter id="IconTabFilter1" key="inStock"    icon="sap-icon://message-success"  iconColor="Positive" count="{worklistView>/inStock}"    text="Bom"/>
+                    <IconTabFilter id="IconTabFilter2" key="shortage"   icon="sap-icon://message-warning"  iconColor="Critical" count="{worklistView>/shortage}"   text="Alerta"/>
+                    <IconTabFilter id="IconTabFilter3" key="outOfStock" icon="sap-icon://message-error"    iconColor="Negative" count="{worklistView>/outOfStock}" text="Crítico"/>
+                </items>
+                
+                <!-- Tabela -->
+                <content>
+                    <Table id="table" growing="true" growingScrollToLoad="true" noDataText="Não há produtos disponíveis" width="auto" mode="MultiSelect">
+
+                        <!-- Cabeçalho da Tabela -->
+                        <headerToolbar>
+                            <Toolbar id="Toolbar1">
+                                <Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+                                <ToolbarSpacer id="toolbarSpacer1"/>
+                                <SearchField id="searchField" tooltip="Procura por produto" search="" width="auto"> </SearchField>
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <!-- Colunas da Tabela -->
+                        <columns>
+                            <!-- Descrição -->
+                            <Column id="descricaoColumn" demandPopin="false" minScreenWidth="Tablet">
+                                <Text id="textcolumnDescricao" text="Descrição"/>
+                            </Column>
+                            <!-- Username -->
+                            <Column id="usernameColumn" hAlign="Begin">
+                                <Text id="textUsernameColumn" text="Username"/>
+                            </Column>
+                            <!-- Data de Entrada -->
+                            <Column id="dataEntradaColumn" hAlign="Center">
+                                <Text id="textDataEntradaColumn" text="Data Entrada"/>
+                            </Column>
+                            <!-- Data de Modificação -->
+                            <Column id="dataModificacaoColumn" hAlign="Center">
+                                <Text id="textDataModificacaoColumn" text="Data Modificação"/>
+                            </Column>
+                            <!-- Preço Unitário -->
+                            <Column id="precoUnitarioColumn" hAlign="End" demandPopin="true" minScreenWidth="Tablet">
+                                <Text id="textPrecoUnitarioColumn" text="Preço Unitário"/>
+                            </Column>
+                            <!-- Estoque -->
+                            <Column id="estoqueColumn" demandPopin="true" minScreenWidth="Tablet" hAlign="End">
+                                <Text id="textEstoqueColumn" text="Estoque"/>
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem id="ColumnListItem1" type="Navigation" press=".onPress">
+                                <cells>
+                                     <!-- Descrição -->
+                                    <Text id="descrCell1" text="Produto 1"/>
+                                    <!-- Username -->
+                                    <Text id="userCell1" text="RALBUQUERQUE"/>
+                                    <!-- Data de Entrada -->
+                                    <Text id="dataEntradaCell1" text="01/01/2025"/>
+                                    <!-- Data de Modificação -->
+                                    <Text id="dataModificacaoCell1" text="01/01/2025"/>
+                                    <!-- Preço Unitário -->
+                                    <ObjectNumber id="precoUnitarioCell1" number="100" unit="EUR"/>
+                                    <!-- Estoque -->
+                                    <ObjectNumber id="estoqueCell1" number="300"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <!-- Fim da Tabela -->
+
+                </content>
+            </IconTabBar>           
+        </semantic:headerContent>
+
+        <!-- Botão de Email -->
+        <semantic:sendEmailAction>
+            <semantic:SendEmailAction id="sendMail"  press=""/>
+        </semantic:sendEmailAction>
+
+        <!-- Botões do Footer -->
+        <semantic:positiveAction>
+            <semantic:PositiveAction id="sendPositive" text="Novo" press=""/>
+        </semantic:positiveAction>
+        <semantic:negativeAction>
+            <semantic:NegativeAction id="sendNegative" text="Remover" press=""/>
+        </semantic:negativeAction>
+
+    </semantic:SemanticPage>
+</mvc:View>
