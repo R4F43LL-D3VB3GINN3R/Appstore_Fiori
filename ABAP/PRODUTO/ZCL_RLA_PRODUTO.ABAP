@@ -59,6 +59,11 @@ CLASS ZCL_RLA_PRODUTO IMPLEMENTATION.
       FROM zrla_produto
       INTO CORRESPONDING FIELDS OF TABLE me->ot_produtos.
 
+    IF sy-subrc NE 0.
+      MESSAGE | Não foi possível encontrar produtos. | TYPE 'E'.
+      RETURN.
+    ENDIF.
+
   ENDMETHOD.
 
 
