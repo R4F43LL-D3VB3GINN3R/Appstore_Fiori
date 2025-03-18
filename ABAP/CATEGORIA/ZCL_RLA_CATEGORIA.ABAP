@@ -1,20 +1,20 @@
-class ZCL_RLA_CATEGORIA definition
-  public
-  final
-  create public .
+CLASS zcl_rla_categoria DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
 
-public section.
+  PUBLIC SECTION.
 
-  methods CONSTRUCTOR .
-  methods GET_CATEGORIAS
-    returning
-      value(TABLE_CATEGORIAS) type ZRLA_CATEGORIA_TT .
+    METHODS constructor .
+    METHODS get_categorias
+      RETURNING
+        VALUE(table_categorias) TYPE zrla_categoria_tt .
   PROTECTED SECTION.
-private section.
+  PRIVATE SECTION.
 
-  data OT_CATEGORIAS type ZRLA_CATEGORIA_TT .
+    DATA ot_categorias TYPE zrla_categoria_tt .
 
-  methods GET_DATA .
+    METHODS get_data .
 ENDCLASS.
 
 
