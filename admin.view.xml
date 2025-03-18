@@ -1,0 +1,15 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" controllerName="sbx.rla.bc.appstore.controller.admin"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="" >
+        <VBox id="boxCatalogo" backgroundDesign="Solid" width="20%" height="20%" justifyContent="Center" alignItems="Center" class="sapUiTinyMarginTop sapUiTinyMarginBegin customTile">
+            <VBox id="imgBoxCatalogo" width="100%" height="80%" alignItems="Center" justifyContent="Center" class="customTile2">
+                <core:Icon id="iconCatalogo" src="sap-icon://activity-items" size="4rem" class="customIcon" press="onRouteCatalogo"/>
+            </VBox>
+            <VBox id="titleBoxCatalogo" width="100%" height="20%" backgroundDesign="Solid" justifyContent="Center" alignItems="Center">
+                <Text id="titleBox" text="Catálogo" class="myCustomText"></Text>
+            </VBox>
+        </VBox>
+    </Page>
+</mvc:View>
