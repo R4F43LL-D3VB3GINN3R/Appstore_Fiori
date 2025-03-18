@@ -7,22 +7,23 @@ CLASS zcl_rla_produto DEFINITION
 
     METHODS constructor
       IMPORTING
-        p_id_produto TYPE char10.
-
+        !p_id_produto TYPE char10 OPTIONAL.
     METHODS get_produto
       EXPORTING
-        produto TYPE zrla_produto_st.
-
+        !produto TYPE zrla_produto_st .
+    METHODS get_produtos
+      EXPORTING
+        !produtos TYPE zrla_produto_tt .
   PROTECTED SECTION.
   PRIVATE SECTION.
-    METHODS get_data.
 
+    DATA os_produto TYPE zrla_produto_st .
+    DATA ot_produtos TYPE zrla_produto_tt .
+
+    METHODS get_data .
     METHODS get_data_produto
       IMPORTING
-        p_id_produto TYPE char10.
-
-    DATA: os_produto  TYPE zrla_produto_st,
-          ot_produtos TYPE zrla_produto_tt.
+        !p_id_produto TYPE char10 .
 ENDCLASS.
 
 
@@ -33,15 +34,20 @@ CLASS ZCL_RLA_PRODUTO IMPLEMENTATION.
 * <SIGNATURE>---------------------------------------------------------------------------------------+
 * | Instance Public Method ZCL_RLA_PRODUTO->CONSTRUCTOR
 * +-------------------------------------------------------------------------------------------------+
-* | [--->] P_ID_PRODUTO                   TYPE        CHAR10
+* | [--->] P_ID_PRODUTO                   TYPE        CHAR10(optional)
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD constructor.
 
     "metodo para buscar os produtos
     me->get_data( ).
 
-    "método para buscar por um produto.
-    me->get_data_produto( p_id_produto = p_id_produto ).
+    "se o parametro for enviado
+    IF p_id_produto IS NOT INITIAL.
+
+      "método para buscar por um produto.
+      me->get_data_produto( p_id_produto = p_id_produto ).
+
+    ENDIF.
 
   ENDMETHOD.
 
@@ -96,6 +102,19 @@ CLASS ZCL_RLA_PRODUTO IMPLEMENTATION.
 
     "parametro recebe atributo de classe
     produto = me->os_produto.
+
+  ENDMETHOD.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_RLA_PRODUTO->GET_PRODUTOS
+* +-------------------------------------------------------------------------------------------------+
+* | [<---] PRODUTOS                       TYPE        ZRLA_PRODUTO_TT
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  METHOD get_produtos.
+
+    "parametro recebe atributo tabela de classe
+    produtos = me->ot_produtos.
 
   ENDMETHOD.
 ENDCLASS.
