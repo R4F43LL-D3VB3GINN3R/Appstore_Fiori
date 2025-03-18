@@ -12,7 +12,7 @@ function (Controller, UIComponent) {
 
         onRouteCatalogo: function () {
             var oRouter = UIComponent.getRouterFor(this);
-            oRouter.navTo("RouteCatalogo");
+            oRouter.navTo("RouteCatalogo") ;
         }
     });
 });
