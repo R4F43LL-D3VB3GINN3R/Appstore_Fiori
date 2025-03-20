@@ -24,7 +24,6 @@ function (Controller, JSONModel) {
             var modelsData = [
                 { modelName: "categoriaCollection", modelRef: "oModelCategorias" },
                 { modelName: "produtosCollection", modelRef: "oModelProdutos" },
-                
             ];
         
             modelsData.forEach(function(entry) {
