@@ -19,20 +19,29 @@ function (Controller, JSONModel) {
             this.getData();      // carrega os dados dos serviços
         },
 
+        //------------------------------------
+        //      DADOS DE INICIALIZACAO
+        //------------------------------------
+
+        //----------------------------------------------------------------------------
+        //                          Carrega os modelos
+        //----------------------------------------------------------------------------
         createModels: function() {
 
             var modelsData = [
                 { modelName: "categoriaCollection", modelRef: "oModelCategorias" },
                 { modelName: "produtosCollection", modelRef: "oModelProdutos" },
             ];
-        
+
             modelsData.forEach(function(entry) {
                 this[entry.modelRef] = new sap.ui.model.json.JSONModel();
                 this.getView().setModel(this[entry.modelRef], entry.modelName);
                 this.oModels.push(this[entry.modelRef]);
             }.bind(this)); 
         },
-
+        //----------------------------------------------------------------------------
+        //                             Carrega os URLs
+        //----------------------------------------------------------------------------
         createEntity: function() {
 
             var urlNames = [
@@ -44,13 +53,15 @@ function (Controller, JSONModel) {
                 this.entityNames.push(name.path);
             }.bind(this));
         },
-
+        //----------------------------------------------------------------------------
+        //                          Envio de Pedidos
+        //----------------------------------------------------------------------------
         getData: async function () {
             for (let i = 0; i < this.entityNames.length; i++) {
                 await this._loadEntity(this.entityNames[i], i);
             }
         },
-        
+
         _loadEntity: function (path, index) {
             return new Promise((resolve, reject) => {
                 this.oModel.read(path, {
@@ -58,7 +69,7 @@ function (Controller, JSONModel) {
                         this.oModels[index].setData(oData);
                         resolve(oData);
                     }.bind(this), 
-        
+
                     error: function (oError) {
                         reject(oError);
                     }.bind(this) 
@@ -66,20 +77,24 @@ function (Controller, JSONModel) {
             });
         },
 
+        //------------------------------------
+        //           FORMATADORES
+        //------------------------------------
+
         formatDate: function(sDate) {
 
             if (!sDate) return "";
-            
+
             //mascara para data
             var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
                 pattern: "dd.MM.yyyy" 
             });
-        
+
             return oDateFormat.format(new Date(sDate));
         },
 
         formatEstockState: function(iQuantity) {
-            
+
             // retorna estado de estoque
             if (iQuantity > 100) {
                 return "Success"; 
