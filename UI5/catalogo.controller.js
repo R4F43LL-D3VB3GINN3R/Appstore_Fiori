@@ -6,12 +6,12 @@ function (Controller, JSONModel) {
     "use strict";
 
     return Controller.extend("sbx.rla.bc.appstore.controller.catalogo", {
-        
+
         onInit: function () { 
 
             this.oModel = this.getOwnerComponent().getModel(); // model principal
             this.entityNames = []; // arrays de nomes dos models
-            this.oModels   = [];   // array de models 
+            this.oModels = [];     // array de models 
 
             // funcoes de inicializacao
             this.createModels(); // cria os models
@@ -21,54 +21,48 @@ function (Controller, JSONModel) {
 
         createModels: function() {
 
-            //cria colecao de categorias
-            this.oModelCategorias = new JSONModel();
-            var nameModel = "categoriaCollection";
-            this.getView().setModel(this.oModelCategorias, nameModel);
-            this.oModels.push(this.oModelCategorias);
-
-            //cria colecao de produtos
-            this.oModelProdutos = new JSONModel();
-            var nameModel = "produtosCollection";
-            this.getView().setModel(this.oModelProdutos, nameModel);
-            this.oModels.push(this.oModelProdutos);
+            var modelsData = [
+                { modelName: "categoriaCollection", modelRef: "oModelCategorias" },
+                { modelName: "produtosCollection", modelRef: "oModelProdutos" },
+                
+            ];
+        
+            modelsData.forEach(function(entry) {
+                this[entry.modelRef] = new sap.ui.model.json.JSONModel();
+                this.getView().setModel(this[entry.modelRef], entry.modelName);
+                this.oModels.push(this[entry.modelRef]);
+            }.bind(this)); 
         },
 
         createEntity: function() {
 
-            var entityName;  
+            var urlNames = [
+                { path: "/CategoriaSet" },
+                { path: "/ProdutoSet" }
+            ];
 
-            // preenche array de entidades
-            entityName = "/CategoriaSet";
-            this.entityNames.push(entityName);
-            entityName = "/ProdutoSet";
-            this.entityNames.push(entityName);
+            urlNames.forEach(function(name) {
+                this.entityNames.push(name.path);
+            }.bind(this));
         },
 
-        getData: async function() {
-
-            var that = this;
-
-            // a cada iteracao aguarda o resultado da promessa
+        getData: async function () {
             for (let i = 0; i < this.entityNames.length; i++) {
-                await that.loadEntity(that.entityNames[i], i); 
+                await this._loadEntity(this.entityNames[i], i);
             }
         },
-
-        loadEntity: function(path, index) {
-
-            var that = this; 
-
-            // retorna oData como resultado da promessa
-            return new Promise(function(resolve, reject) {
-                that.oModel.read(path, {
+        
+        _loadEntity: function (path, index) {
+            return new Promise((resolve, reject) => {
+                this.oModel.read(path, {
                     success: function (oData) {
-                        that.oModels[index].setData(oData); 
-                        resolve(oData); 
-                    },
+                        this.oModels[index].setData(oData);
+                        resolve(oData);
+                    }.bind(this), 
+        
                     error: function (oError) {
                         reject(oError);
-                    }
+                    }.bind(this) 
                 });
             });
         },
@@ -103,7 +97,7 @@ function (Controller, JSONModel) {
             if (value === null || value === undefined) {
                 return "0.00"; 
             }
-            
+
             // retorna formatador para duas casas decimais
             return parseFloat(value).toFixed(2); 
         }
