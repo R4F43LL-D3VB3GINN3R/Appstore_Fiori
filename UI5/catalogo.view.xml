@@ -1,4 +1,4 @@
-<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" controllerName="sbx.rla.bc.appstore.controller.catalogo">
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:core="sap.ui.core" controllerName="sbx.rla.bc.appstore.controller.catalogo">
     <semantic:SemanticPage id="page2" headerPinnable="false" toggleHeaderOnTitleClick="false" showFooter="true">
         <!-- Título da Página -->
         <semantic:titleHeading>
@@ -7,32 +7,37 @@
 
         <!-- Cabeçalho -->
         <semantic:headerContent>
-            <IconTabBar id="iconTabBar" select=".onQuickFilter" expandable="false">
+            <IconTabBar id="iconTabBar" select="" expandable="false">
 
                 <!-- Ícones de Filtro -->
                 <items>
-                    <IconTabFilter id="IconTabFilter1" key="inStock"    icon="sap-icon://message-success"  iconColor="Positive" count="{worklistView>/inStock}"    text="Bom"/>
-                    <IconTabFilter id="IconTabFilter2" key="shortage"   icon="sap-icon://message-warning"  iconColor="Critical" count="{worklistView>/shortage}"   text="Alerta"/>
-                    <IconTabFilter id="IconTabFilter3" key="outOfStock" icon="sap-icon://message-error"    iconColor="Negative" count="{worklistView>/outOfStock}" text="Crítico"/>
+                    <IconTabFilter id="IconTabFilter1" key="Bom"     icon="sap-icon://message-success" iconColor="Positive" count="{stockCounts>/bomCount}"     text="Bom"/>
+                    <IconTabFilter id="IconTabFilter2" key="Alerta"  icon="sap-icon://message-warning" iconColor="Critical" count="{stockCounts>/alertaCount}"  text="Alerta"/>
+                    <IconTabFilter id="IconTabFilter3" key="Crítico" icon="sap-icon://message-error"   iconColor="Negative" count="{stockCounts>/criticoCount}" text="Crítico"/>
                 </items>
-                
+
                 <!-- Tabela -->
                 <content>
-                    <Table id="table" growing="true" growingScrollToLoad="true" noDataText="Não há produtos disponíveis" width="auto" mode="MultiSelect">
+                    <Table id="tabelaProdutos" items="{produtosCollection>/results}" growing="true" growingScrollToLoad="true" noDataText="Não há produtos disponíveis" width="auto" mode="MultiSelect" alternateRowColors="true" growingThreshold="50" > 
 
                         <!-- Cabeçalho da Tabela -->
                         <headerToolbar>
                             <Toolbar id="Toolbar1">
-                                <Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+                                <Title id="tableHeader" text="Catálogo"/>
                                 <ToolbarSpacer id="toolbarSpacer1"/>
-                                <SearchField id="searchField" tooltip="Procura por produto" search="" width="auto"> </SearchField>
+                                <SearchField id="searchField" tooltip="Procura por produto" search="" width="auto" placeholder="Nº Produto"> </SearchField>
+                                <ComboBox id="comboCategoria1" placeholder="Categoria" items="{categoriaCollection>/results}">
+                                    <core:Item id="itemComboboxCategoria" key="{categoriaCollection>IdCategoria}" text="{categoriaCollection>Descricao}"/>
+                                </ComboBox>
+                                <Button id="searchBtnFilter" text="Go" press="onSearchFilters" type="Emphasized"></Button>
+                                 <Button id="testbuttom" text="TESTES" press="updateStockCounts" type="Emphasized"></Button>
                             </Toolbar>
                         </headerToolbar>
 
                         <!-- Colunas da Tabela -->
                         <columns>
                             <!-- Descrição -->
-                            <Column id="descricaoColumn" demandPopin="false" minScreenWidth="Tablet">
+                            <Column id="descricaoColumn" demandPopin="false" minScreenWidth="Tablet" width="300px">
                                 <Text id="textcolumnDescricao" text="Descrição"/>
                             </Column>
                             <!-- Username -->
@@ -58,20 +63,20 @@
                         </columns>
 
                         <items>
-                            <ColumnListItem id="ColumnListItem1" type="Navigation" press=".onPress">
+                            <ColumnListItem id="ColumnListItem1" type="Navigation" press="">
                                 <cells>
                                      <!-- Descrição -->
-                                    <Text id="descrCell1" text="Produto 1"/>
+                                    <Text id="descrCell1" text="{produtosCollection>Descricao}"/>
                                     <!-- Username -->
-                                    <Text id="userCell1" text="RALBUQUERQUE"/>
+                                    <Text id="userCell1" text="{produtosCollection>Username}"/>
                                     <!-- Data de Entrada -->
-                                    <Text id="dataEntradaCell1" text="01/01/2025"/>
+                                    <Text id="dataEntradaCell1" text="{path: 'produtosCollection>DataEntrada', formatter: '.formatDate'}"/>
                                     <!-- Data de Modificação -->
-                                    <Text id="dataModificacaoCell1" text="01/01/2025"/>
+                                    <Text id="dataModificacaoCell1" text="{path: 'produtosCollection>DataAlteracao', formatter: '.formatDate'}"/>
                                     <!-- Preço Unitário -->
-                                    <ObjectNumber id="precoUnitarioCell1" number="100" unit="EUR"/>
+                                    <ObjectNumber id="precoUnitarioCell1" number="{path: 'produtosCollection>PrecoUnitario', formatter: '.formatDecimal'}" unit="EUR"/>
                                     <!-- Estoque -->
-                                    <ObjectNumber id="estoqueCell1" number="300"/>
+                                    <ObjectNumber id="estoqueCell1" number="{produtosCollection>Estoque}" state="{path: 'produtosCollection>Estoque', formatter: '.formatEstockState'}"/>
                                 </cells>
                             </ColumnListItem>
                         </items>
@@ -79,7 +84,7 @@
                     <!-- Fim da Tabela -->
 
                 </content>
-            </IconTabBar>           
+            </IconTabBar>
         </semantic:headerContent>
 
         <!-- Botão de Email -->
@@ -94,6 +99,5 @@
         <semantic:negativeAction>
             <semantic:NegativeAction id="sendNegative" text="Remover" press=""/>
         </semantic:negativeAction>
-
     </semantic:SemanticPage>
 </mvc:View>
