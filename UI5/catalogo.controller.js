@@ -2,12 +2,15 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/Filter"
+    "sap/ui/model/Filter",
+    "../utils/formatter"
 ],
-function (Controller, JSONModel, FilterOperator, Filter) {
+function (Controller, JSONModel, FilterOperator, Filter, formatter) {
     "use strict";
 
     return Controller.extend("sbx.rla.bc.appstore.controller.catalogo", {
+
+        formatter: formatter,
 
         onInit: function () { 
 
@@ -68,7 +71,7 @@ function (Controller, JSONModel, FilterOperator, Filter) {
                 await this._loadEntity(this.entityNames[i], i);
             }
 
-            this.updateStockCounts();
+            this._updateStockCounts();
         },
 
         _loadEntity: function (path, index) {
@@ -89,11 +92,11 @@ function (Controller, JSONModel, FilterOperator, Filter) {
         //----------------------------------------------------------------------------
         //                           Contagem de Estoque
         //----------------------------------------------------------------------------
-        updateStockCounts: function () {
+        _updateStockCounts: function () {
 
             var oTable    = this.getView().byId("tabelaProdutos");
             var oBinding  = oTable.getBinding("items");
-            var aContexts = oBinding.getContexts(); // Obtém os dados filtrados
+            var aContexts = oBinding.getContexts(); 
 
             var bomCount     = 0;
             var alertaCount  = 0;
@@ -137,7 +140,7 @@ function (Controller, JSONModel, FilterOperator, Filter) {
             var oBinding = oTable.getBinding("items");
             oBinding.filter(this.aFilters);
 
-            this.updateStockCounts();
+            this._updateStockCounts();
         },
 
         _getFilterCategoria: function () {
@@ -191,43 +194,6 @@ function (Controller, JSONModel, FilterOperator, Filter) {
             }
         },
 
-        //------------------------------------
-        //           FORMATADORES
-        //------------------------------------
 
-        formatDate: function(sDate) {
-
-            if (!sDate) return "";
-
-            //mascara para data
-            var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-                pattern: "dd.MM.yyyy" 
-            });
-
-            return oDateFormat.format(new Date(sDate));
-        },
-
-        formatEstockState: function(iQuantity) {
-
-            // retorna estado de estoque
-            if (iQuantity > 100) {
-                return "Success"; 
-            } else if (iQuantity > 49) {
-                return "Warning"; 
-            } else if (iQuantity > 20) {
-                return "Error"; 
-            } else {
-                return "Error"; 
-            }
-        },
-
-        formatDecimal: function(value) {
-            if (value === null || value === undefined) {
-                return "0.00"; 
-            }
-
-            // retorna formatador para duas casas decimais
-            return parseFloat(value).toFixed(2); 
-        }
     });
 });
