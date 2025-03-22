@@ -11,14 +11,14 @@
 
                 <!-- Ícones de Filtro -->
                 <items>
-                    <IconTabFilter id="IconTabFilter1" key="Bom"     icon="sap-icon://message-success" iconColor="Positive" count="{stockCounts>/bomCount}"     text="Bom"/>
-                    <IconTabFilter id="IconTabFilter2" key="Alerta"  icon="sap-icon://message-warning" iconColor="Critical" count="{stockCounts>/alertaCount}"  text="Alerta"/>
-                    <IconTabFilter id="IconTabFilter3" key="Crítico" icon="sap-icon://message-error"   iconColor="Negative" count="{stockCounts>/criticoCount}" text="Crítico"/>
+                    <IconTabFilter id="IconTabFilter1" key="Bom"     icon="sap-icon://message-success" iconColor="Positive" count="{stockCounts>/bomCount}"     text="Bom"     class="iconTabFilter"/>
+                    <IconTabFilter id="IconTabFilter2" key="Alerta"  icon="sap-icon://message-warning" iconColor="Critical" count="{stockCounts>/alertaCount}"  text="Alerta"  class="iconTabFilter"/>
+                    <IconTabFilter id="IconTabFilter3" key="Crítico" icon="sap-icon://message-error"   iconColor="Negative" count="{stockCounts>/criticoCount}" text="Crítico" class="iconTabFilter"/>
                 </items>
 
                 <!-- Tabela -->
                 <content>
-                    <Table id="tabelaProdutos" items="{produtosCollection>/results}" growing="true" growingScrollToLoad="true" noDataText="Não há produtos disponíveis" width="auto" mode="MultiSelect" alternateRowColors="true" growingThreshold="50" > 
+                    <Table id="tabelaProdutos" items="{produtosCollection>/results}" growing="true" growingScrollToLoad="true" noDataText="Não há produtos disponíveis" width="auto" mode="MultiSelect" alternateRowColors="true" growingThreshold="50"> 
 
                         <!-- Cabeçalho da Tabela -->
                         <headerToolbar>
@@ -70,13 +70,13 @@
                                     <!-- Username -->
                                     <Text id="userCell1" text="{produtosCollection>Username}"/>
                                     <!-- Data de Entrada -->
-                                    <Text id="dataEntradaCell1" text="{path: 'produtosCollection>DataEntrada', formatter: '.formatDate'}"/>
+                                    <Text id="dataEntradaCell1" text="{path: 'produtosCollection>DataEntrada', formatter: '.formatter.formatDate'}"/>
                                     <!-- Data de Modificação -->
-                                    <Text id="dataModificacaoCell1" text="{path: 'produtosCollection>DataAlteracao', formatter: '.formatDate'}"/>
+                                    <Text id="dataModificacaoCell1" text="{path: 'produtosCollection>DataAlteracao', formatter: '.formatter.formatDate'}"/>
                                     <!-- Preço Unitário -->
-                                    <ObjectNumber id="precoUnitarioCell1" number="{path: 'produtosCollection>PrecoUnitario', formatter: '.formatDecimal'}" unit="EUR"/>
+                                    <ObjectNumber id="precoUnitarioCell1" number="{path: 'produtosCollection>PrecoUnitario', formatter: '.formatter.formatDecimal'}" unit="EUR"/>
                                     <!-- Estoque -->
-                                    <ObjectNumber id="estoqueCell1" number="{produtosCollection>Estoque}" state="{path: 'produtosCollection>Estoque', formatter: '.formatEstockState'}"/>
+                                    <ObjectNumber id="estoqueCell1" number="{produtosCollection>Estoque}" state="{path: 'produtosCollection>Estoque', formatter: '.formatter.formatEstockState'}"/>
                                 </cells>
                             </ColumnListItem>
                         </items>
