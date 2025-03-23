@@ -3,7 +3,7 @@ sap.ui.define(["sap/ui/model/json/JSONModel"], function (JSONModel) {
 
     class Service {
 
-        oView       = null; 
+        oView       = null;
         oModel      = null;
         collections = [];
         entityNames = [];
@@ -23,14 +23,14 @@ sap.ui.define(["sap/ui/model/json/JSONModel"], function (JSONModel) {
         _setCollections() {
             this.collections.forEach(function(name) {
                 var ModelRef = new JSONModel();
-                this.oView.setModel(ModelRef, name.modelName); 
+                this.oView.setModel(ModelRef, name); 
                 this.oModels.push(ModelRef);
             }.bind(this));
         }
 
         _setUrls() {
             this.urlNames.forEach(function(name) {
-                this.entityNames.push(name.path);
+                this.entityNames.push(name);
             }.bind(this));
         }
 
