@@ -23,11 +23,13 @@ function (Controller, JSONModel, FilterOperator, Filter, formatter, service) {
             this.urlNames   = ["/CategoriaSet", "/ProdutoSet"];
 
             //classe de carregamento de serviço
+            this.oView.setBusy(true); 
             this.oService = new service(this.oModel, this.oView, this.modelsData, this.urlNames);
             await this.oService.loadService();
 
             //criacao do filtro e atualização de produtos em estoque
             this.aFilters = []; 
+            this.oView.setBusy(false);
             this.updateStockCounts();
         },
 
