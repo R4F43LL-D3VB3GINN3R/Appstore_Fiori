@@ -3,7 +3,7 @@ sap.ui.define(["sap/ui/model/json/JSONModel"], function (JSONModel) {
 
     class Service {
 
-        oView       = null;
+        oView       = null; 
         oModel      = null;
         collections = [];
         entityNames = [];
